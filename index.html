@@ -8,78 +8,203 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
  margin:0;
  font-family:Arial,sans-serif;
- background:#10101c;
- color:white;
+ background:#fff;
+ color:#111;
 }
+
 header{
- background:#1b1b2d;
- padding:22px;
+ background:#171329;
+ color:white;
  text-align:center;
- border-bottom:2px solid #ff3030;
+ padding:20px;
+ border-bottom:3px solid #ffcc00;
 }
-header h1{color:#ff3030;margin:0}
-header p{color:#aaa}
+header h1{color:#ffcc00;margin:0}
+header p{color:#ddd;margin-bottom:0}
+
 .container{
  max-width:480px;
- margin:20px auto;
- padding:15px;
+ margin:18px auto;
+ padding:12px;
 }
+
 .box{
- background:#1d1d30;
- padding:18px;
+ background:#fff;
+ border:1px solid #ddd;
+ padding:16px;
  border-radius:13px;
  margin-bottom:15px;
+ box-shadow:0 2px 8px #00000012;
 }
-h3{color:#ff4545;margin-top:0}
+
+h3{
+ color:#111;
+ margin-top:0;
+ text-align:center;
+}
+
 label{
  display:block;
  margin:12px 0 7px;
+ color:#111;
+ font-weight:bold;
 }
+
 input,select{
  width:100%;
  padding:13px;
- border:1px solid #444;
+ border:1px solid #ccc;
  border-radius:8px;
- background:#10101c;
- color:white;
+ background:#fff;
+ color:#111;
  font-size:15px;
 }
+
 button{
  width:100%;
  padding:14px;
  border:0;
- border-radius:8px;
- background:#ed3030;
+ border-radius:9px;
+ background:#171329;
  color:white;
  font-weight:bold;
- font-size:16px;
- margin-top:14px;
+ font-size:15px;
+ margin-top:12px;
  cursor:pointer;
 }
+
 button:disabled{opacity:.5}
+
+.nav-card{
+ border:1px solid #ddd;
+ border-radius:12px;
+ margin-bottom:12px;
+ overflow:hidden;
+ background:#fff;
+}
+
+.nav-card button{
+ margin:0;
+ border-radius:0;
+ background:#fff;
+ color:#111;
+ padding:0;
+}
+
+.nav-image{
+ height:105px;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ font-size:27px;
+ font-weight:bold;
+ letter-spacing:2px;
+ background:linear-gradient(135deg,#eee,#fff);
+ color:#111;
+}
+
+.nav-image.uid{
+ background:linear-gradient(135deg,#171329,#44306b);
+ color:white;
+}
+
+.nav-image.weekly{
+ background:linear-gradient(135deg,#fff3bd,#fff);
+}
+
+.nav-image.monthly{
+ background:linear-gradient(135deg,#e5e5e5,#fff);
+}
+
+.package-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+}
+
+.package{
+ border:1px solid #ddd;
+ border-radius:10px;
+ padding:14px 8px;
+ text-align:center;
+ background:#fff;
+ cursor:pointer;
+}
+
+.package strong{
+ display:block;
+ color:#111;
+ font-size:15px;
+ margin-bottom:9px;
+}
+
+.package span{
+ display:block;
+ color:#e6b800;
+ font-size:19px;
+ font-weight:bold;
+}
+
+.package.selected{
+ border:2px solid #e6b800;
+ background:#fffbea;
+}
+
+.offer-list .package{
+ margin-bottom:10px;
+}
+
+.offer-list .package strong{
+ font-size:17px;
+}
+
 .payment{
  display:flex;
  gap:10px;
 }
+
 .payment button{flex:1}
 .bk{background:#e2136e}
 .ng{background:#e67e22}
+
 .number{
- background:#111;
+ background:#f5f5f5;
+ color:#111;
  padding:15px;
  border-radius:8px;
  margin-top:12px;
- font-size:19px;
  text-align:center;
 }
-.hidden{display:none}
+
+.number strong{
+ font-size:20px;
+}
+
+.copy-btn{background:#333}
+
+.green{background:#168b48}
+
 .note{
- color:#aaa;
+ color:#777;
  font-size:12px;
  text-align:center;
+}
+
+.hidden{display:none!important}
+
+.back{
+ background:#555;
+ margin-bottom:12px;
+}
+
+.price-info{
+ text-align:center;
+ color:#777;
+ font-size:13px;
 }
 </style>
 </head>
@@ -93,34 +218,128 @@ button:disabled{opacity:.5}
 
 <div class="container">
 
+<!-- HOME MENU -->
+<div id="homePage">
+
 <div class="box">
-<h3>PLAYER INFORMATION</h3>
+<h3>SELECT YOUR TOPUP</h3>
+
+<div class="nav-card">
+<button onclick="openPage('uidPage')">
+<div class="nav-image uid">💎 UID TOPUP</div>
+</button>
+</div>
+
+<div class="nav-card">
+<button onclick="openPage('weeklyPage')">
+<div class="nav-image weekly">🎁 WEEKLY</div>
+</button>
+</div>
+
+<div class="nav-card">
+<button onclick="openPage('monthlyPage')">
+<div class="nav-image monthly">⭐ MONTHLY</div>
+</button>
+</div>
+
+</div>
+</div>
+
+<!-- UID TOPUP PAGE -->
+<div id="uidPage" class="hidden">
+
+<button class="back" onclick="goHome()">← BACK</button>
+
+<div class="box">
+<h3>UID TOPUP</h3>
 
 <label>Player UID</label>
 <input id="uid" placeholder="Enter Player UID">
 
-<button onclick="checkUID()">CHECK UID</button>
+<button onclick="checkUID()">CONTINUE</button>
 <p id="uidStatus" class="note"></p>
 </div>
 
-<div class="box hidden" id="orderBox">
-<h3>SELECT PACKAGE</h3>
-
-<label>Diamond Package</label>
-<select id="pack">
-<option value="">Select Package</option>
-<option value="115 Diamond|90">115 Diamond - 90৳</option>
-<option value="240 Diamond|170">240 Diamond - 170৳</option>
-<option value="Weekly Lite|35">Weekly Lite - 35৳</option>
-<option value="2X Weekly Lite|70">2X Weekly Lite - 70৳</option>
-<option value="Weekly|155">Weekly - 155৳</option>
-<option value="Monthly|770">Monthly - 770৳</option>
-</select>
-
-<button onclick="submitOrder()">SUBMIT ORDER</button>
+<div class="box hidden" id="diamondBox">
+<h3>DIAMOND PACKAGE</h3>
+<p class="price-info">Select your Diamond Package</p>
+<div class="package-grid" id="diamondList"></div>
 </div>
 
-<div class="box hidden" id="paymentBox">
+</div>
+
+<!-- WEEKLY PAGE -->
+<div id="weeklyPage" class="hidden">
+
+<button class="back" onclick="goHome()">← BACK</button>
+
+<div class="box">
+<h3>WEEKLY MEMBERSHIP</h3>
+
+<label>Player UID</label>
+<input id="weeklyUid" placeholder="Enter Player UID">
+
+<div class="offer-list">
+<div class="package" onclick="selectOffer('1x Weekly',155,this)">
+<strong>1x WEEKLY</strong>
+<span>155 TK</span>
+</div>
+
+<div class="package" onclick="selectOffer('2x Weekly',290,this)">
+<strong>2x WEEKLY</strong>
+<span>290 TK</span>
+</div>
+
+<div class="package" onclick="selectOffer('3x Weekly',460,this)">
+<strong>3x WEEKLY</strong>
+<span>460 TK</span>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- MONTHLY PAGE -->
+<div id="monthlyPage" class="hidden">
+
+<button class="back" onclick="goHome()">← BACK</button>
+
+<div class="box">
+<h3>MONTHLY MEMBERSHIP</h3>
+
+<label>Player UID</label>
+<input id="monthlyUid" placeholder="Enter Player UID">
+
+<div class="offer-list">
+
+<div class="package" onclick="selectOffer('1x Monthly',770,this)">
+<strong>1x MONTHLY</strong>
+<span>770 TK</span>
+</div>
+
+<div class="package" onclick="selectOffer('2x Monthly',1450,this)">
+<strong>2x MONTHLY</strong>
+<span>1450 TK</span>
+</div>
+
+<div class="package" onclick="selectOffer('3x Monthly',2300,this)">
+<strong>3x MONTHLY</strong>
+<span>2300 TK</span>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- PAYMENT PAGE -->
+<div id="paymentPage" class="hidden">
+
+<button class="back" onclick="goHome()">← HOME</button>
+
+<div class="box">
+<h3>YOUR ORDER</h3>
+<p id="orderSummary"></p>
+
 <h3>SELECT PAYMENT METHOD</h3>
 
 <div class="payment">
@@ -129,162 +348,25 @@ button:disabled{opacity:.5}
 </div>
 
 <div id="payDetails" class="hidden">
+
 <div class="number">
 <p id="payName"></p>
 <strong id="payNumber"></strong>
-<button onclick="copyNumber()">COPY NUMBER</button>
+<button class="copy-btn" onclick="copyNumber()">COPY NUMBER</button>
 </div>
 
-<p class="note">Send Money করার পর Transaction ID বসাও।</p>
+<p class="note">
+Send Money করার পর Transaction ID বসাও।
+</p>
 
 <label>Transaction ID</label>
 <input id="trx" placeholder="Enter Transaction ID">
 
 <button onclick="verifyOrder()">VERIFY ORDER</button>
+
+</div>
 </div>
 </div>
 
-<div class="box hidden" id="result">
-<h3>ORDER SUBMITTED</h3>
-<p>WhatsApp-এ অর্ডারের তথ্য পাঠানোর জন্য নিচের বাটনে চাপ দাও।</p>
-<button style="background:#168b48" onclick="sendWhatsApp()">
-SEND ORDER TO WHATSAPP
-</button>
-</div>
-
-<p class="note">
-MAXJO TOPUP © 2026
-</p>
-
-</div>
-
-<script>
-let selectedPayment = "";
-let orderData = {};
-
-function checkUID(){
- const uid=document.getElementById("uid").value.trim();
-
- if(!uid){
-  alert("Enter Player UID");
-  return;
- }
-
- document.getElementById("uidStatus").innerText=
- "UID entered. Please continue.";
-
- document.getElementById("orderBox").classList.remove("hidden");
-}
-
-function submitOrder(){
- const pack=document.getElementById("pack").value;
-
- if(!pack){
-  alert("Select a Diamond Package");
-  return;
- }
-
- const uid=document.getElementById("uid").value.trim();
-
- orderData.uid=uid;
- orderData.package=pack.split("|")[0];
- orderData.price=pack.split("|")[1];
-
- document.getElementById("paymentBox").classList.remove("hidden");
- document.getElementById("payDetails").classList.add("hidden");
- document.getElementById("result").classList.add("hidden");
-}
-
-function payment(method){
- selectedPayment=method;
-
- let number=method==="bKash"
- ? "+8801865908732"
- : "01627220616";
-
- document.getElementById("payName").innerText=method;
- document.getElementById("payNumber").innerText=number;
-
- orderData.method=method;
- orderData.number=number;
-
- document.getElementById("payDetails").classList.remove("hidden");
- document.getElementById("result").classList.add("hidden");
-}
-
-function copyNumber(){
- const number=document.getElementById("payNumber").innerText;
-
- navigator.clipboard.writeText(number)
- .then(()=>alert("Number copied!"))
- .catch(()=>alert("Copy this number: "+number));
-}
-
-function verifyOrder(){
- const trx=document.getElementById("trx").value.trim();
-
- if(!selectedPayment){
-  alert("Select Payment Method");
-  return;
- }
-
- if(!trx){
-  alert("Enter Transaction ID");
-  return;
- }
-
- orderData.trx=trx;
- orderData.status="Pending Verification";
-
- document.getElementById("result").classList.remove("hidden");
-}
-
-function sendWhatsApp(){
- if(!orderData.trx){
-  alert("Please enter Transaction ID");
-  return;
- }
-
- const message=
-`MAXJO TOPUP - NEW ORDER
-
-Player UID: ${orderData.uid}
-Package: ${orderData.package}
-Price: ${orderData.price} BDT
-Payment: ${orderData.method}
-Payment Number: ${orderData.number}
-Transaction ID: ${orderData.trx}
-
-Status: Pending Verification`;
-
- const whatsapp="8801610570290";
-
- const url="https://wa.me/"+whatsapp+
- "?text="+encodeURIComponent(message);
-
- window.open(url,"_blank");
-}
-</script>
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCv71BSVfjFiG3UDB7I4RWbJzl02XUdsYg",
-  authDomain: "maxjo-topup-74296.firebaseapp.com",
-  projectId: "maxjo-topup-74296",
-  storageBucket: "maxjo-topup-74296.firebasestorage.app",
-  messagingSenderId: "535328022266",
-  appId: "1:535328022266:web:5fec9701a85c998e6d7343",
-  measurementId: "G-89FGQ78VBV"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-</body>
-</html>
+<!-- RESULT PAGE -->
+<div id="resultPage" class
